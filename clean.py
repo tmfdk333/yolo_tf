@@ -1,7 +1,7 @@
 import os
 import numpy as np
 import cv2
-import cPickle as pickle
+import pickle
 import sys
 
 if len(sys.argv) == 1:
@@ -20,7 +20,7 @@ with open('labels.txt', 'r') as f:
 	for i in range(len(pick)): pick[i] = pick[i].strip()
 
 def pp(l):
-	for i in l: print '{}: {}'.format(i,l[i])
+	for i in l: print('{}: {}'.format(i,l[i]))
 
 def parse(line):
 	x = line.split('>')[1].split('<')[0]
@@ -53,6 +53,7 @@ for i, file in enumerate(os.listdir('.')):
 	obj = False
 	noHuman = True
 	noPlant = True
+
 	for line in lines:
 		if '<width>' in line:
 			w = parse(line)
@@ -97,7 +98,6 @@ for i, file in enumerate(os.listdir('.')):
 	add = [[jpg, [w, h, all]]] * (1 + noHuman* (15 + noPlant * 11))
 	dumps += add
 
-
 stat = dict()
 for dump in dumps:
 	all = dump[1][2]
@@ -108,10 +108,10 @@ for dump in dumps:
 			else:
 				stat[current[0]] =1
 
-print 
-print 'Statistics:'
+print()
+print('Statistics:')
 pp(stat)
-print 'Dataset size: {}'.format(len(dumps))
+print('Dataset size: {}'.format(len(dumps)))
 with open('parsed.yolotf', 'wb') as f:
 	pickle.dump([pick, dumps],f,protocol=-1)
 os.chdir(tempdir)

@@ -1,5 +1,5 @@
 from drawer import *
-import cPickle as pickle
+import pickle
 from copy import deepcopy
 import subprocess
 mult = 1.
@@ -11,11 +11,11 @@ def shuffle(train_path, file, expectC, S, batch, epoch):
 	if C != expectC:
 		exit("There is a mismatch between the model and the parsed annotations")
 	size = len(data)
-	print 'Dataset of total {}'.format(size)
+	print('Dataset of total {}'.format(size))
 	batch_per_epoch = int(size / batch)
 
 	for i in range(epoch):
-		print 'EPOCH {}'.format(i+1)
+		print('EPOCH {}'.format(i+1))
 		# Shuffle data
 		shuffle_idx = np.random.permutation(np.arange(size))
 		for b in range(batch_per_epoch):
@@ -199,11 +199,11 @@ def shuffle(train_path, file, expectC, S, batch, epoch):
 								if (np.sum(consider) > 0.5):
 									names += [pick[np.argmax(consider)]]
 								here += C
-							print '{} : {}'.format(jpg, names)
+							print('{} : {}'.format(jpg, names))
 
 
 					x_batch = np.concatenate(x_batch, 0)
 					yield (x_batch, datum)
 				except:
-					print 'Random scale/translate sends object(s) out of bound'
+					print('Random scale/translate sends object(s) out of bound')
 					continue

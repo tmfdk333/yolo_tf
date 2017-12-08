@@ -36,7 +36,7 @@ if FLAGS.load:
 	step = int(name.split('-')[1])
 yoloNet = YOLO(FLAGS.model + int(step > 0) * '-{}'.format(step))
 
-print ('Compiling net & initialise parameters...')
+print(('Compiling net & initialise parameters...'))
 start = time.time()
 if FLAGS.gpu <= 0.:
 	with tf.device('cpu:0'):
@@ -45,9 +45,9 @@ else:
 	model = SimpleNet(yoloNet, FLAGS)
 model.step = step
 model.setup_meta_ops(FLAGS)
-print ('Finished in {}s'.format(time.time() - start))
+print(('Finished in {}s'.format(time.time() - start)))
 
 if FLAGS.train:
-	print 'training mode'
+	print('training mode')
 	model.train(image, annot, FLAGS.batch, FLAGS.epoch)
 model.predict(FLAGS)

@@ -31,7 +31,7 @@ def crop(imPath, allobj = None):
 			obj[3] = fix(obj[3], w)
 			obj[2] = fix(obj[2], h)
 			obj[4] = fix(obj[4], h)
-			#print obj, w, h
+			#print(obj, w, h)
 
 	# return im
 	im_ = cv2.resize(im, (448, 448))
@@ -58,7 +58,7 @@ def draw_predictions(predictions,
 	
 	B = 2
 	boxes = []
-	SS        =  S * S # number of grid cells
+	SS		=  S * S # number of grid cells
 	prob_size = SS * C # class probabilities
 	conf_size = SS * B # confidences for each grid cell
 	probs = predictions[0 : prob_size]
@@ -102,7 +102,7 @@ def draw_predictions(predictions,
 
 	imgcv = cv2.imread(img_path)
 	if flip: imgcv = cv2.flip(imgcv, 1)
-	print img_path
+	print(img_path)
 	h, w, _ = imgcv.shape
 	for b in boxes:
 		max_indx = np.argmax(b.probs)
@@ -114,9 +114,9 @@ def draw_predictions(predictions,
 			right = int ((b.x + b.w/2.) * w)
 			top   = int ((b.y - b.h/2.) * h)
 			bot   = int ((b.y + b.h/2.) * h)
-			if left  < 0    :  left = 0
+			if left  < 0	:  left = 0
 			if right > w - 1: right = w - 1
-			if top   < 0    :   top = 0
+			if top   < 0	:   top = 0
 			if bot   > h - 1:   bot = h - 1
 			thick = int((h+w)/300)
 			cv2.rectangle(imgcv, 

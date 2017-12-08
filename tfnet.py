@@ -38,7 +38,7 @@ class SimpleNet(object):
 		
 		now = self.inp
 		for i in range(yolo.layer_number):
-			print now.get_shape()
+			print(now.get_shape())
 			l = yolo.layers[i]
 			if l.type == 'CONVOLUTIONAL':
 				if l.pad < 0:
@@ -88,9 +88,9 @@ class SimpleNet(object):
 				now = tf.maximum(0.1 * now, now)
 			elif l.type == 'DROPOUT':
 				if not FLAGS.savepb:
-					print ('dropout')
+					print(('dropout'))
 					now = tf.nn.dropout(now, keep_prob = self.drop)
-		print now.get_shape()
+		print(now.get_shape())
 		self.out = now
 
 	def setup_meta_ops(self, FLAGS):
@@ -100,14 +100,14 @@ class SimpleNet(object):
 		self.scale_prob, self.scale_conf, self.scale_noobj, self.scale_coor = scales 
 		if FLAGS.gpu > 0: 
 			percentage = min(FLAGS.gpu, 1.)
-			print 'gpu mode {} usage'.format(percentage)
+			print('gpu mode {} usage'.format(percentage))
 			gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=percentage)
 			self.sess = tf.Session(config = tf.ConfigProto(
 				allow_soft_placement = True,
 				log_device_placement = False,
 				gpu_options = gpu_options))
 		else:
-			print 'cpu mode'
+			print('cpu mode')
 			self.sess = tf.Session(config = tf.ConfigProto(
 				allow_soft_placement = False,
 				log_device_placement = False))
@@ -119,11 +119,11 @@ class SimpleNet(object):
 		self.sess.run(tf.initialize_all_variables())
 		if FLAGS.load:
 			load_point = 'backup/model-{}'.format(self.step)
-			print 'loading from {}'.format(load_point)
+			print('loading from {}'.format(load_point))
 			self.saver.restore(self.sess, load_point)
 
 	def savepb(self, name):
-		print 'Saving pb to {}'.format(name)
+		print('Saving pb to {}'.format(name))
 		tf.train.write_graph(self.sess.graph_def,'./', name, as_text = False)
 
 	def to_constant(self, inc = 0):
@@ -138,14 +138,14 @@ class SimpleNet(object):
 				f.write(val.tobytes())
 	
 	def decode(self):
-    		"""
+		"""
 			Please refer to the comment section inside data.py
 			to understand the below placeholders. I look forward
 			to receiving comments/improvements on my current
 			implementation of YOLO's loss calculation
-			"""
+		"""
 
-		print ('Set up loss and train ops (may cause lag)...')
+		print(('Set up loss and train ops (may cause lag)...'))
 		SS = self.S * self.S
 		self.true_class = tf.placeholder(tf.float32, #
 			[None, SS * self.C])
@@ -270,13 +270,13 @@ class SimpleNet(object):
 				self.cooid2 : datum[10],
 			}
 			_, loss = self.sess.run([self.train_op, self.loss], feed_dict)
-			print 'step {} - batch {} - loss {}'.format(1+i+self.step, 1+i, loss)
+			print('step {} - batch {} - loss {}'.format(1+i+self.step, 1+i, loss))
 			if (i+1) % (self.save_every/batch_size) == 0:
-				print 'save checkpoint and binaries at step {}'.format(self.step+i+1)
+				print('save checkpoint and binaries at step {}'.format(self.step+i+1))
 				self.saver.save(self.sess, 'backup/model-{}'.format(self.step+i+1))
 				self.to_constant(inc = i+1)
 
-		print 'save checkpoint and binaries at step {}'.format(self.step+i+1)
+		print('save checkpoint and binaries at step {}'.format(self.step+i+1))
 		self.saver.save(self.sess, 'backup/model-{}'.format(self.step+i+1))
 		self.to_constant(inc = i+1)
 
@@ -303,12 +303,12 @@ class SimpleNet(object):
 				self.drop : 1.0
 			}
 		
-			print ('Forwarding {} images ...'.format(len(img_feed)))
+			print(('Forwarding {} images ...'.format(len(img_feed))))
 			start = time.time()
 			out = self.sess.run([self.out], feed_dict)
 			stop = time.time()
 			last = stop - start
-			print ('Total time = {}s / {} imgs = {} fps'.format(
+			print(('Total time = {}s / {} imgs = {} fps'.format(), 
 				last, len(img_feed), len(img_feed) / last))
 			for i, prediction in enumerate(out[0]):
 				draw_predictions(
@@ -316,4 +316,4 @@ class SimpleNet(object):
 					'{}/{}'.format(img_path, all_img[i/2]), 
 					i % 2, threshold,
 					self.C, self.S, self.labels, self.colors)
-			print ('Results stored in results/')
+			print(('Results stored in results/'))

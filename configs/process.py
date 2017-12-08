@@ -55,7 +55,7 @@ def cfg_yielder(model, undiscovered = True):
 		channel = 3 # initial number of channel in the tensor volume
 		out = int() 
 		for i, d in enumerate(s):
-    		# for each iteration in this loop
+			# for each iteration in this loop
 			# allbytes will be gradually subtracted
 			# by the size of the corresponding layer (d)
 			# except for the 1st dense layer
@@ -77,7 +77,7 @@ def cfg_yielder(model, undiscovered = True):
 		if allbytes <= 0:
 				message = "Error: yolo-{}.cfg suggests a bigger size"
 				message += " than yolo-{}.weights actually is"
-				print message.format(model, model)
+				print(message.format(model, model))
 				assert allbytes > 0
 		# allbytes is now = I * out1
 		# where I is the input size of the 1st dense layer
@@ -101,7 +101,7 @@ def cfg_yielder(model, undiscovered = True):
 	flat = False
 	yield ['CROP']
 	for i, d in enumerate(s):
-		#print w, h, c, l
+		#print(w, h, c, l)
 		flag = False
 		if len(d) == 4:
 			mult = (d['size'] == 3) 
@@ -114,11 +114,11 @@ def cfg_yielder(model, undiscovered = True):
 				d['pad'] = -size
 				new = size
 			yield ['conv', d['size'], c, d['filters'], 
-				    h, w, d['stride'], d['pad']]	
+					h, w, d['stride'], d['pad']]	
 			w = h = new
 			c = d['filters']
 			l = w * h * c
-			#print w, h, c
+			#print(w, h, c)
 		if len(d) == 2:
 			if 'output' not in d:
 				yield ['pool', d['size'], 0, 

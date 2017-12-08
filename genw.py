@@ -45,7 +45,7 @@ if src != str():
 	flag = True
 
 	# PHASE 01: recollect
-	print 'Recollect:'
+	print('Recollect:')
 	for i, k in enumerate(zip(cfg_yielder(des, undiscovered = False), 
 							cfg_yielder(src, undiscovered = False))):
 		if not i: continue
@@ -57,22 +57,22 @@ if src != str():
 			w = col.give()
 			writer.write(w.tobytes())
 			offset += w.shape[0] * 4
-			print k
+			print(k)
 		elif not flag:
 			mark = i
 			break
 	if mark == i:
-    		print 'none'
+			print('none')
 else:
-    flag = False
+	flag = False
 
 # PHASE 02: random init
-print 'Random init:'
+print('Random init:')
 if not flag:
 	for i, k in enumerate(cfg_yielder(des, undiscovered = False)):
 		if i < mark: continue
 		if k[0] not in ['conv','conn']: continue
-		print k
+		print(k)
 		if k[0] == 'conv':
 			w = np.random.normal(
 				scale = .05,
@@ -85,4 +85,4 @@ if not flag:
 		writer.write(w.tobytes())
 		offset += w.shape[0] * 4
 writer.close()
-print 'total size: {} bytes'.format(offset)
+print('total size: {} bytes'.format(offset))
