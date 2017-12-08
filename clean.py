@@ -5,7 +5,7 @@ import pickle
 import sys
 
 if len(sys.argv) == 1:
-	ANN = '../pascal/VOCdevkit/ANN'
+	ANN = './data/Annotations'
 else:
 	ANN = sys.argv[1]
 
@@ -87,6 +87,13 @@ for i, file in enumerate(os.listdir('.')):
 		if xx: current[3] = parse(line)
 		if yn: current[2] = parse(line)
 		if yx: current[4] = parse(line)
+
+	imgname = file.replace("xml", "jpg")
+	imgpath = "../imgs/" + imgname
+	img = cv2.imread(imgpath, 0)
+	height, width = img.shape[:2]
+	w = width
+	h = height
 
 	if current != list() and current[0] in pick:
 		all += [current]
