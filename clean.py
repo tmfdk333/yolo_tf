@@ -102,7 +102,7 @@ for i, file in enumerate(os.listdir('.')):
 
 	if all == list(): continue
 	jpg = file.split('.')[0]+'.jpg'
-	add = [[jpg, [w, h, all]]] * (1 + noHuman* (15 + noPlant * 11))
+	add = [[jpg, [w, h, all]]]
 	dumps += add
 
 stat = dict()
