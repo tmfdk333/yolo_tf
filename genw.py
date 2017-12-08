@@ -35,7 +35,7 @@ class collector(object):
 
 
 mark = int(1)
-writer = open('yolo-{}.weights'.format(des),'w')
+writer = open('yolo-{}.weights'.format(des),'bw+')
 writer.write(np.int32([int(0)]*4).tobytes())
 offset = int(16)
 

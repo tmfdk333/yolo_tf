@@ -14,7 +14,7 @@ def cfg_yielder(model, undiscovered = True):
 	"""
 
 	# Step 1: parsing cfg file
-	with open('configs/yolo-{}.cfg'.format(model), 'rb') as f:
+	with open('configs/yolo-{}.cfg'.format(model), 'br+') as f:
 		lines = f.readlines()
 
 	s = [] # contains layers' info
@@ -22,6 +22,7 @@ def cfg_yielder(model, undiscovered = True):
 	add = dict()
 	for line in lines:
 		line = line.strip()
+		line = line.decode()
 		if 'side' in line:
 			S = int(line.split('=')[1].strip())
 		if '[' in line:

@@ -105,7 +105,7 @@ class YOLO(object):
 					dtype = '({})float32,'.format(bias_number))
 				offset += bias_number * 4
 	
-				chunks  = [chunk] * (weight_number / chunk) 
+				chunks  = [chunk] * int((weight_number / chunk))
 				chunks += [weight_number % chunk]
 				l.weights = np.array([], dtype = np.float32)
 				for c in chunks:
@@ -117,7 +117,7 @@ class YOLO(object):
 	
 		# Defensive python right here bietch.
 		if offset == os.path.getsize(weight_path):
-			print(('Successfully identified all {} bytes'.format(offset)))
+			print('Successfully identified all {} bytes'.format(offset))
 		else:
 			print('expect ', offset, ' bytes, found ', os.path.getsize(weight_path))
 			exit()
